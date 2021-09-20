@@ -1,22 +1,32 @@
 {
-  "name": "our-gab-web",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "11.1.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
-  },
-  "devDependencies": {
-    "@types/react": "17.0.21",
-    "eslint": "7.32.0",
-    "eslint-config-next": "11.1.2",
-    "typescript": "4.4.3"
-  }
+    "name": "our-gab-web",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "clear && next dev -p 1001",
+        "build": "next build",
+        "start": "next start -p 1001",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@chakra-ui/react": "^1.6.7",
+        "@emotion/react": "^11.4.1",
+        "@emotion/styled": "^11.3.0",
+        "@types/crypto-js": "^4.0.2",
+        "@types/react-redux": "^7.1.18",
+        "crypto-js": "^4.1.1",
+        "framer-motion": "^4.1.17",
+        "next": "11.1.2",
+        "react": "17.0.2",
+        "react-dom": "17.0.2",
+        "react-icons": "^4.2.0",
+        "react-redux": "^7.2.5",
+        "redux": "^4.1.1"
+    },
+    "devDependencies": {
+        "@types/react": "17.0.21",
+        "eslint": "7.32.0",
+        "eslint-config-next": "11.1.2",
+        "typescript": "4.4.3"
+    }
 }
