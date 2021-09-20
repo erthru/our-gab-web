@@ -1,5 +1,4 @@
 import { Flex } from "@chakra-ui/layout";
-import { useRouter } from "next/dist/client/router";
 import OGWBottomNavigation from "./ogw-bottom-navigation";
 
 type OGWBottomNavigationItem = {

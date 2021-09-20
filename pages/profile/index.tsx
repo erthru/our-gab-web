@@ -9,6 +9,7 @@ const Profile: NextPage = () => {
         <Hoc title="Profile" isAuth>
             <OGWLHome title="Profile">
                 <Text
+                    cursor="pointer"
                     onClick={() => {
                         session.clear();
                         window.location.href = "/login";

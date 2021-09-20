@@ -83,3 +83,17 @@ export const sendMessage = async (
 export const me = async (): Promise<Merge<BasicResponse, { people: People; username: string }>> => {
     return await get(`${API_URL}v1/people/me`);
 };
+
+export const searchByUsername = async (
+    username: string
+): Promise<
+    Merge<
+        BasicResponse,
+        {
+            people: People;
+            username: string;
+        }
+    >
+> => {
+    return await get(`${API_URL}v1/people/search/${username}`);
+};

@@ -3,6 +3,10 @@ import OGWBottomNavigations from "../../components/commons/ogw-bottom-navigation
 import { IoIosChatboxes, IoIosHome, IoIosPerson, IoIosSearch } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
+import FindByUsernameModal from "../../components/modals/find-by-username-modal";
+import { People } from "../../models/people";
+import * as peopleService from "../../services/people-service";
+import { SendMessageFormValue } from "../../components/forms/ogw-send-message-form";
 
 type Props = {
     children: React.ReactNode;
@@ -11,6 +15,9 @@ type Props = {
 
 const OGWLHome = (props: Props) => {
     const [currentActivePosition, setCurrentActivePosition] = useState(0);
+    const [isFindByUsernameModalShown, setIsFindByUsernameModalShown] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [people, setPeople] = useState<People | undefined>(undefined);
     const router = useRouter();
 
     useEffect(() => {
@@ -23,15 +30,31 @@ const OGWLHome = (props: Props) => {
                 setCurrentActivePosition(1);
                 break;
 
-            case "/find":
-                setCurrentActivePosition(2);
-                break;
-
             case "/profile":
                 setCurrentActivePosition(3);
                 break;
         }
     }, []);
+
+    const setPosition = (position: number) => {
+        setCurrentActivePosition(position !== 2 ? position : currentActivePosition);
+        if (position === 2) setIsFindByUsernameModalShown(true);
+    };
+
+    const findByUsername = async (username: string) => {
+        setIsLoading(true);
+        const res = await peopleService.searchByUsername(username);
+        const res1 = await peopleService.me();
+        if (res.people !== undefined) setPeople(res.people._id !== res1.people._id ? res.people : undefined);
+        setIsLoading(false);
+    };
+
+    const sendMessageToFoundedUsername = async (data: SendMessageFormValue) => {
+        setIsLoading(true);
+        await peopleService.sendMessage(data.body, people?._id!!);
+        setIsLoading(false);
+        window.location.href = "/channels";
+    };
 
     return (
         <>
@@ -67,7 +90,7 @@ const OGWLHome = (props: Props) => {
                                     {
                                         title: "Find",
                                         icon: IoIosSearch,
-                                        to: "/find",
+                                        to: "#",
                                     },
                                     {
                                         title: "Profile",
@@ -75,12 +98,21 @@ const OGWLHome = (props: Props) => {
                                         to: "/profile",
                                     },
                                 ]}
-                                onItemSelected={(position) => setCurrentActivePosition(position)}
+                                onItemSelected={setPosition}
                             />
                         </Box>
                     </Flex>
                 </Container>
             </Flex>
+
+            <FindByUsernameModal
+                isShown={isFindByUsernameModalShown}
+                onClose={() => setIsFindByUsernameModalShown(false)}
+                isLoading={isLoading}
+                peopleResult={people}
+                onQuerying={findByUsername}
+                onMessageSent={sendMessageToFoundedUsername}
+            />
         </>
     );
 };
